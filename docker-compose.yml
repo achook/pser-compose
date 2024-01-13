@@ -1,6 +1,7 @@
 services:
   influxdb:
     image: influxdb:alpine
+    container_name: influxdb
     ports:
       - '8086:8086'
     volumes:
@@ -18,6 +19,7 @@ services:
   
   grafana:
     image: grafana/grafana:latest
+    container_name: grafana
     ports:
       - '3000:3000'
     volumes:
@@ -31,19 +33,21 @@ services:
 
   adapter:
     build: ./adapter
+    container_name: adapter
     depends_on:
       - influxdb
     environment:
-      - MQTT_DATA_TOPIC="psertest"
-      - MQTT_ALARM_TOPIC = "psertest2"
-      - MQTT_SERVER_ADDRESS = "mqtt-dashboard.com"
-      - MQTT_SERVER_PORT = 1883
-      - INFLUX_ADDRESS = "http://localhost:8086"
-      - INFLUX_PORT = "8086"
-      - INFLUX_USER = "admin"
-      - INFLUX_TOKEN = "admin_token"
-      - INFLUX_ORG = "pser_umu"
-      - INFLUX_BUCKET = "pser_umu_bucket"
+      - MQTT_DATA_TOPIC=psertest
+      - MQTT_ALARM_TOPIC=psertest2
+      - MQTT_SILENCE_TOPIC=psertest3
+      - MQTT_SERVER_ADDRESS=mqtt-dashboard.com
+      - MQTT_SERVER_PORT=1883
+      - INFLUX_ADDRESS=http://influxdb:8086
+      - INFLUX_PORT=8086
+      - INFLUX_USER=admin
+      - INFLUX_TOKEN=admin_token
+      - INFLUX_ORG=pser_umu
+      - INFLUX_BUCKET=pser_umu_bucket
 
 volumes:
   influxdb-storage:
