@@ -4,8 +4,12 @@ datasources:
     type: influxdb
     access: proxy
     database: pser_umu_bucket
-    user: admin
-    password: admin
+    secureJsonData:
+      token: admin_token
+    jsonData:
+      version: Flux
+      organization: pser_umu
+      defaultBucket: pser_umu_bucket
     url: http://influxdb:8086
     isDefault: true
     editable: true

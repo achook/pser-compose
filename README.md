@@ -1,65 +1,38 @@
-# docker-compose-influxdb-grafana
+# pser-compose
 
-The project relies on https://github.com/jkehres/docker-compose-influxdb-grafana to deploy influxdb and grafana. However, minor updates have been performed.
+The project relies on https://ants-gitlab.inf.um.es/amzarca/docker-compose-influxdb-grafana, which in turn relies on https://github.com/jkehres/docker-compose-influxdb-grafana to deploy InfluxDB and Grafana. However, the adapter code was added which required changes to the configuration. Also, more default values were added.
 
 ## Prerequisites
 
-* Clone the repository
-```
-git clone https://ants-gitlab.inf.um.es/amzarca/docker-compose-influxdb-grafana
-```
-* cd docker-compose-influxdb-grafana
-* Install docker and docker compose if they were not previously installed
-```
-./install-docker.sh
-```
+
+* Install Docker if they were not previously installed. The instructions can be found on Docker website:
+  - [Docker](https://docs.docker.com/engine/install/)
+  - [Docker Compose](https://docs.docker.com/compose/install/)
 * Deploy the services
 ```
-docker-compose up
+docker-compose up --build
 ```
+The build flag ensures that the latest version of the code is used.
 
-## Configure grafana
-### Configure influxdb data source
-Enter to the dashboard
-```
-http://localhost:3000/login
-admin:admin (If you have modified .env, use the new values you have provided)
-```
-* Configuration-> data source
-* Select influxDB
-* Query Language -> Select Flux instead of FluxQL
-* Provide the following inputs from .env:
-	* Organization
-	* Token
-	* Default Bucket
-* Save and test
+## Access the default dashboard
+ * Go to http://localhost:3000/ and login as user _admin_ with password _admin_ (If you have modified .env, use the new values you have provided)
+* Select hamburger menu on the left and select "Dashboards"
+* Select "Greenhouse"
 
-### Create panel with query
-* Create new panel
-* You can use the following query as example:
-```
-from(bucket: "pser_umu_bucket")
-  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)
-  |> filter(fn: (r) =>
-    r._measurement == "iot" and
-    (r._field == "temperature" or r._field == "humidity")
-  )
-```
-* Press on query inspector and test the query
+
 
 ## Built With
 
 * [Docker](https://www.docker.com/) - Docker containers
-* [influxdb-grafana](https://github.com/jkehres/docker-compose-influxdb-grafana) - Base services
+* [influxdb-grafana](https://ants-gitlab.inf.um.es/amzarca/docker-compose-influxdb-grafana) - Base services
 
 ## Authors
+* Karol Kucza
+* Antonio García Serrano
 
-* **Alejandro Molina Zarca** - *Main developer/SysAdmin* -
+### Based on work of
+* Alejandro Molina Zarca
 
 ## License
 
 This project is licensed under the MIT License
-
-## Acknowledgments
-
-* Department of Information and Communications Engineering, Faculty of Computer Science, University of Murcia.
