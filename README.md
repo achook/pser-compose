@@ -3,16 +3,14 @@
 The project relies on https://ants-gitlab.inf.um.es/amzarca/docker-compose-influxdb-grafana, which in turn relies on https://github.com/jkehres/docker-compose-influxdb-grafana to deploy InfluxDB and Grafana. However, the adapter code was added which required changes to the configuration. Also, more default values were added.
 
 ## Prerequisites
-
-
-* Install Docker if they were not previously installed. The instructions can be found on Docker website:
+* Install Docker and Docker Compose, if they were not previously installed. The instructions can be found on Docker website:
   - [Docker](https://docs.docker.com/engine/install/)
   - [Docker Compose](https://docs.docker.com/compose/install/)
-* Deploy the services
+* Run the services
 ```
-docker-compose up --build
+docker compose up --build --no-recreate
 ```
-The build flag ensures that the latest version of the code is used.
+The ``--build`` and ``--no-recreate`` flags are needed only when the adapter code is changed. Otherwise, they can be omitted.
 
 ## Access the default dashboard
  * Go to http://localhost:3000/ and login as user _admin_ with password _admin_ (If you have modified .env, use the new values you have provided)
